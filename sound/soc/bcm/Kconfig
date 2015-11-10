@@ -19,6 +19,13 @@ config SND_BCM2708_SOC_I2S
 	  the BCM2708 I2S interface. You will also need
 	  to select the audio interfaces to support below.
 
+config SND_BCM2708_SOC_RPI_CODEC_MBED
+    tristate "Support mbed AudioCODEC (TLV320AIC23B)"
+    depends on SND_BCM2708_SOC_I2S || SND_BCM2835_SOC_I2S
+    select SND_SOC_TLV320AIC23
+    help
+      Say Y or M if you want to add support for mbed AudioCODEC (TLV320AIC23B).
+
 config SND_BCM2708_SOC_HIFIBERRY_DAC
         tristate "Support for HifiBerry DAC"
         depends on SND_BCM2708_SOC_I2S || SND_BCM2835_SOC_I2S
