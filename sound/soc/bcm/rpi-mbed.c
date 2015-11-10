@@ -2,7 +2,7 @@
  * ASoC driver for mbed AudioCODEC (with a TLV320AIC23b)
  * connected to a Raspberry Pi
  *
- * Author:      Florian Meier, <koalo@koalo.de>
+ * Author:      Florian Meier, <koalo@koalo.de>, Alfred Samuelson (Device Tree Support) <alfredsa@kth.se>
  *	      Copyright 2013
  *
  * This program is free software; you can redistribute it and/or modify
@@ -71,7 +71,20 @@ static int snd_rpi_mbed_probe(struct platform_device *pdev)
 {
 	int ret = 0;
 
-	snd_rpi_mbed.dev = &pdev->dev;
+	snd_rpi_mbed.dev = &pdev->dev
+	
+	if (pdev->dev.of_node) {
+		struct device_node *i2s_node;
+		struct snd_soc_dai_link *dai = &snd_rpi_embed_dai[0];
+		i2s_node = of_parse_phandle(pdev->dev.of_node, "i2s-controller", 0);
+
+		if (i2s_node) {
+			dai->cpu_dai_name = NULL;
+			dai->cpu_of_node = i2s_node;
+			dai->platform_name = NULL;
+			dai->platform_of_node = i2s_node;
+		}
+	}
 	ret = snd_soc_register_card(&snd_rpi_mbed);
 	if (ret) {
 		dev_err(&pdev->dev,
@@ -87,6 +100,12 @@ static int snd_rpi_mbed_remove(struct platform_device *pdev)
 	return snd_soc_unregister_card(&snd_rpi_mbed);
 }
 
+static const struct of_device_id snd_rpi_embed_of_match[] = {
+	{ .compatible = "rpi,rpi-embed", },
+	{},
+};
+MODULE_DEVICE_TABLE(of, snd_rpi_embed_of_match);
+
 static struct platform_driver snd_rpi_mbed_driver = {
 	.driver = {
 		.name   = "snd-rpi-mbed",
@@ -98,6 +117,6 @@ static struct platform_driver snd_rpi_mbed_driver = {
 
 module_platform_driver(snd_rpi_mbed_driver);
 
-MODULE_AUTHOR("Florian Meier");
+MODULE_AUTHOR("Florian Meier, Alfred Samuelson");
 MODULE_DESCRIPTION("ASoC Driver for Raspberry Pi connected to mbed AudioCODEC");
 MODULE_LICENSE("GPL");
