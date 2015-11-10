@@ -110,6 +110,7 @@ static struct platform_driver snd_rpi_mbed_driver = {
 	.driver = {
 		.name   = "snd-rpi-mbed",
 		.owner  = THIS_MODULE,
+		.of_match_table = snd_rpi_embed_of_match,
 	},
 	.probe	  = snd_rpi_mbed_probe,
 	.remove	 = snd_rpi_mbed_remove,
