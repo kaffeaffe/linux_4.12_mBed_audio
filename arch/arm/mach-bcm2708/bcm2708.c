@@ -949,7 +949,7 @@ void __init bcm2708_init(void)
 	bcm_register_device_dt(&bcm2708_i2s_device);
 #endif
 
-#ifdef defined(CONFIG_SND_BCM2708_SOC_RPI_CODEC_MBED_MODULE) || defined(CONFIG_SND_BCM2708_SOC_RPI_CODEC_MBED)
+#ifdef defined(CONFIG_SND_BCM2708_SOC_RPI_CODEC_MBED) || defined(CONFIG_SND_BCM2708_SOC_RPI_CODEC_MBED_MODULE)
 	bcm_register_device(&snd_rpi_mbed_device);
 	i2c_register_board_info(1, snd_rpi_mbed_i2c_devices, ARRAY_SIZE(snd_rpi_mbed_i2c_devices));
 #endif
