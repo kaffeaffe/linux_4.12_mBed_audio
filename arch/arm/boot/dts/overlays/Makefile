@@ -12,6 +12,7 @@ ifeq ($(CONFIG_ARCH_BCM2835),y)
    RPI_DT_OVERLAYS=y
 endif
 
+dtb-$(RPI_DT_OVERLAYS) += rpi-mbed-overlay.dtb
 dtb-$(RPI_DT_OVERLAYS) += ads7846-overlay.dtb
 dtb-$(RPI_DT_OVERLAYS) += at86rf233-overlay.dtb
 dtb-$(RPI_DT_OVERLAYS) += bmp085_i2c-sensor-overlay.dtb
