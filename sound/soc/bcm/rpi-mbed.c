@@ -71,7 +71,7 @@ static int snd_rpi_mbed_probe(struct platform_device *pdev)
 {
 	int ret = 0;
 
-	snd_rpi_mbed.dev = &pdev->dev
+	snd_rpi_mbed.dev = &pdev->dev;
 	
 	if (pdev->dev.of_node) {
 		struct device_node *i2s_node;
