@@ -32,24 +32,22 @@ static int snd_rpi_mbed_hw_params(struct snd_pcm_substream *substream,
 	struct snd_soc_codec *codec = rtd->codec;
 	struct snd_soc_dai *codec_dai = rtd->codec_dai;
 	struct snd_soc_dai *cpu_dai = rtd->cpu_dai;
-	int sysclk;
-
-	sysclk = 12000000; /* this is fixed on this board */
-
-	/* set mbed sysclk */
-	int ret = snd_soc_dai_set_sysclk(codec_dai, 0, sysclk, 0);
-	
-	if (ret < 0) {
-		dev_err(codec->dev,
-				"Failed to set tlv320aic23 SYSCLK: %d\n", ret);
-		return ret;
-	}
+	int sysclk = 12000000; /* this is fixed on this board */
 	
 	/* Set mbed bclk */
 	int ret = snd_soc_dai_set_bclk_ratio(cpu_dai,32*2);
 	if (ret < 0){
 		dev_err(codec->dev,
 				"Failed to set BCLK ratio %d\n", ret);
+		return ret;
+	}
+	
+	/* set mbed sysclk */
+	ret = snd_soc_dai_set_sysclk(codec_dai, 0, sysclk, 0);
+	
+	if (ret < 0) {
+		dev_err(codec->dev,
+				"Failed to set tlv320aic23 SYSCLK: %d\n", ret);
 		return ret;
 	}
 
