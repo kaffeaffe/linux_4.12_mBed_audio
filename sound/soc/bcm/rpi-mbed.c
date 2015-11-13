@@ -37,7 +37,7 @@ static int snd_rpi_mbed_hw_params(struct snd_pcm_substream *substream,
 	sysclk = 12000000; /* this is fixed on this board */
 
 	/* set mbed sysclk */
-	ret = snd_soc_dai_set_sysclk(codec_dai, 0, sysclk, 0);
+	int ret = snd_soc_dai_set_sysclk(codec_dai, 0, sysclk, 0);
 	
 	if (ret < 0) {
 		dev_err(codec->dev,
@@ -91,7 +91,7 @@ static int snd_rpi_mbed_probe(struct platform_device *pdev)
 	
 	if (pdev->dev.of_node) {
 		struct device_node *i2s_node;
-		struct snd_soc_dai_link *dai = &snd_rpi_embed_dai[0];
+		struct snd_soc_dai_link *dai = &snd_rpi_mbed_dai[0];
 		i2s_node = of_parse_phandle(pdev->dev.of_node, "i2s-controller", 0);
 
 		if (i2s_node) {
